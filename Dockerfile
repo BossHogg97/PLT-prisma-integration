@@ -13,12 +13,15 @@ COPY types        types
 COPY routes       routes
 COPY plugins      plugins
 COPY public       public
+COPY prisma       prisma
 
-RUN pnpm install --fix-lockfile --frozen-lockfile
+RUN pnpm install --fix-lockfile --frozen-lockfile --prod --ignore-scripts
+RUN npx prisma generate
+
 RUN pnpm run build
 
 EXPOSE 5003
 
 CMD ["platformatic", "start"]
 
-#ENTRYPOINT ["tail", "-f", "/dev/null"] // Allows developers to exec bash command to debug container internals
+#ENTRYPOINT ["tail", "-f", "/dev/null"] # Allows developers to exec bash command to debug container internals
