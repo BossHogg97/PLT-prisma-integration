@@ -56,7 +56,7 @@ docker run -it gemini-api /bin/sh
 - 📔 View the REST API's Swagger documentation at http://localhost:5003/documentation/
 
 ## Prisma setup
-Following the command list for setup and integrate Prisma
+Following the command list for setup and integrate Prisma. At first startup we must generate prisma client
 ```
 1. 
 npx prisma init --datasource-provider postgresql
