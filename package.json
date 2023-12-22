@@ -1,0 +1,53 @@
+{
+  "name": "@platformatic/test",
+  "version": "0.1.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Marco Asta"
+  },
+  "main": "dist/app.mjs",
+  "scripts": {
+    "_____________bootstrap": "pnpm install --node-linker=hoisted && pnpm build",
+    "build": "platformatic compile",
+    "clean": "rimraf -fr ./dist",
+    "db:types": "platformatic db types",
+    "dev": "pnpm start",
+    "docker:build": "docker build -t gemini-api . && pnpm docker:compose",
+    "docker:build-nocache": "docker build --progress=plain --no-cache -t gemini-api . && pnpm docker:compose",
+    "docker:compose": "docker compose --env-file .env.docker up -d gemini-api",
+    "docker:run": "docker run --env-file .env.docker -d -p 8080:8080 gemini-api",
+    "format": "prettier --config .prettierrc \"**/*.{js,json,ts,css,scss,vue,html,md}\" --write",
+    "migrate": "platformatic db migrations apply",
+    "reorder": "pnpm sort-package-json && pnpm sort-compiler-options",
+    "start": "platformatic start"
+  },
+  "dependencies": {
+    "@fastify/static": "^6.12.0",
+    "@platformatic/db": "^1.15.1",
+    "@platformatic/sql-mapper": "^1.15.1",
+    "@prisma/client": "5.7.1",
+    "ajv": "8.12.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "fastify": "4.25.1",
+    "fastify-plugin": "4.5.1",
+    "fastify-zod": "^1.4.0",
+    "fluent-json-schema": "4.2.1",
+    "tree-cli": "^0.6.7",
+    "typescript": "5.3.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@ruheni/db-diff": "^0.2.9",
+    "@types/node": "^20.10.5",
+    "platformatic": "1.15.1",
+    "prisma": "^5.7.1",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2"
+  },
+  "packageManager": "pnpm@8.10.2",
+  "engines": {
+    "node": "^18.8.0 || >=20.6.0"
+  }
+}

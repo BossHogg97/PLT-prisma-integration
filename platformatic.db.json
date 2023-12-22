@@ -1,0 +1,77 @@
+{
+  "$schema": "https://platformatic.dev/schemas/v1.10.0/db",
+  "db": {
+    "connectionString": "{DATABASE_URL}",
+    "graphql": false,
+    "openapi": {
+      "enabled": true,
+      "prefix": "",
+      "info": {
+        "title": "Gemini API",
+        "description": "Platformatic test PostgreSQL, Fastify and Swagger REST APIs",
+        "version": "1.0.0"
+      },
+      "servers": [
+        {
+          "url": "http://localhost:5003",
+          "description": "Local dev server"
+        }
+      ],
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "components": {
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+      }
+    },
+    "schemalock": true,
+    "cache": false,
+    "limit": {
+      "default": 25,
+      "max": 99999
+    }
+  },
+  "watch": {
+    "ignore": [
+      "*.sqlite",
+      "*.sqlite-journal"
+    ]
+  },
+  "server": {
+    "hostname": "{PLT_SERVER_HOSTNAME}",
+    "port": "{PORT}",
+    "cors": {
+      "origin": "{PLT_SERVER_CORS_ORIGIN}"
+    },
+    "logger": {
+      "level": "{PLT_SERVER_LOGGER_LEVEL}"
+    }
+  },
+  "migrations": {
+    "dir": "migrations",
+    "autoApply": true
+  },
+  "plugins": {
+    "paths": [
+      {
+        "path": "./plugins",
+        "encapsulate": false
+      },
+      {
+        "path": "./routes"
+      }
+    ],
+    "typescript": "{PLT_TYPESCRIPT}"
+  },
+  "types": {
+    "autogenerate": false
+  }
+}

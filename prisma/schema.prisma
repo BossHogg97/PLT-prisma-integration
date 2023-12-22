@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model boms {
+  id              Int
+  selection       String
+  type            String
+  level           Int
+  t_n             Int
+  quantity        Int
+  item            String
+  parent          String
+  path            String
+  path_id         String
+  revision        String
+  description     String
+  description_en  String
+  spare_index     String
+  wbe             String
+  description_wbe String
+  plant_id        String
+  tag             String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime?
+  uuid            String    @id(map: "bom_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  notes           notes?
+}
+
+model drawings {
+  filename           String   @unique(map: "drawing_filename_idx")
+  extension          String
+  size               Int
+  item               String?
+  creation_date      DateTime
+  last_access_date   DateTime
+  last_modified_date DateTime
+  plant_id           String
+  tag                String?
+  uuid               String   @id(map: "drawing_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+}
+
+model notes {
+  uuid      String    @id(map: "note_pkey") @db.Uuid
+  content   String    @db.VarChar
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  boms      boms      @relation(fields: [uuid], references: [uuid], onDelete: NoAction, onUpdate: NoAction, map: "note_uuid_fkey")
+}
+
+model settings {
+  set_code   String    @db.VarChar
+  item_code  String    @db.VarChar
+  item_value String    @db.VarChar
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime?
+
+  @@id([set_code, item_code])
+  @@index([set_code, item_code], map: "settings_set_code_item_code")
+  @@index([set_code, item_value], map: "settings_set_code_item_value")
+}
+
+model versions {
+  version BigInt    @id
+  name    String?
+  md5     String?
+  run_at  DateTime? @db.Timestamptz(6)
+}

@@ -1,0 +1,14 @@
+npm-debug.log
+devops
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+README.md
+LICENSE
+.vscode
+postgres-data
+**/test
+dist/**/tsconfig.tsbuildinfo
+*.sqlite

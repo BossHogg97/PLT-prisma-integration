@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "module": "commonjs",
+    "noEmitOnError": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "target": "es6",
+    "pretty": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "watchOptions": {
+    "watchFile": "fixedPollingInterval",
+    "watchDirectory": "fixedPollingInterval",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": ["**/node_modules", "dist"]
+  }
+}

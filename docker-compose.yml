@@ -1,0 +1,41 @@
+version: "3.9"
+
+volumes:
+  postgresData:
+    external: false
+
+services:
+  gemini-db:
+    image: postgres
+    container_name: gemini-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresData:/data/postgres
+
+  gemini-api:
+    image: gemini-api
+    container_name: gemini-api
+    restart: unless-stopped
+    # Environment variables from an environment file have lower precedence than those passed via the command-line or via the environment attributes.
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-changeme}@gemini-db:5432/postgres
+      PORT: ${PORT:-5003}
+      PLT_SERVER_HOSTNAME: ${PLT_SERVER_HOSTNAME:-0.0.0.0}
+      PLT_SERVER_LOGGER_LEVEL: ${PLT_SERVER_LOGGER_LEVEL:-info}
+      PLT_SERVER_CORS_ORIGIN: ${PLT_SERVER_CORS_ORIGIN:-http://localhost:3003}
+      PLT_TYPESCRIPT: false
+    ports:
+      - 5003:5003
+    depends_on:
+      - gemini-db
+
+networks:
+  default:
+    name: postgresql-external
+    external: true
